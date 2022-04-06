@@ -15,15 +15,34 @@ algod_client = algod.AlgodClient(algod_token, algod_address, headers=purestake_t
 
 def CreateWallet(email):
     private_key, address = account.generate_account()
-    print("My address: {}".format(address))
-    print("My private key: {}".format(private_key))
-    print("My passphrase: {}".format(mnemonic.from_private_key(private_key)))
+    print(mnemonic.from_private_key(private_key).split(" ")[0])
+
+    wallet = {
+        "address": str(address),
+        "private_key": str(private_key),
+        "passphrase0": mnemonic.from_private_key(private_key).split(" ")[0],
+        "passphrase1": mnemonic.from_private_key(private_key).split(" ")[1],
+        "passphrase2": mnemonic.from_private_key(private_key).split(" ")[2],
+        "passphrase3": mnemonic.from_private_key(private_key).split(" ")[3],
+        "passphrase4": mnemonic.from_private_key(private_key).split(" ")[4],
+        "passphrase5": mnemonic.from_private_key(private_key).split(" ")[5],
+        "passphrase6": mnemonic.from_private_key(private_key).split(" ")[6],
+        "passphrase7": mnemonic.from_private_key(private_key).split(" ")[7],
+        "passphrase8": mnemonic.from_private_key(private_key).split(" ")[8],
+        "passphrase9": mnemonic.from_private_key(private_key).split(" ")[9],
+        "passphrase10": mnemonic.from_private_key(private_key).split(" ")[10],
+        "passphrase11": mnemonic.from_private_key(private_key).split(" ")[11],
+    }
+
+    return wallet
 
 
 
 def GetBalance(wallet_address):
     account_info = algod_client.account_info(wallet_address)
     print("Account balance: {} microAlgos".format(account_info.get('amount')) + "\n")
+
+    return account_info.get('amount')
 
 
 
@@ -39,14 +58,16 @@ def SendCoin(sender_address, sender_key, receiver_address, amount):
         txid = algod_client.send_transaction(signed_txn)
         print("Successfully sent transaction with txID: {}".format(txid))
 
+        return txid
+
     except:
-        pass
+        return "error"
 
 
 
 
 
-#CreateWallet("raymond@gmail.com")
+CreateWallet("raymond@gmail.com")
 #GetBalance("JWJK6EDFEPR7XVXN7IS7RIDCPGGPCDWJO57I5CELE25DNJLDPWCDQBXZWQ")
 #SendCoin("YEBOK7IKDN5ZPRPL5V4EHOSHVBARDLJISE5LQY2LIBFN34GBI4CWQE6PRI", "o74i2p0M/zsdGzWMFLNRJ743hCirKJYxdVLaZHy3vMzBAuV9Cht7l8Xr7XhDukeoQRGtKJE6uGNLQErd8MFHBQ==", "JWJK6EDFEPR7XVXN7IS7RIDCPGGPCDWJO57I5CELE25DNJLDPWCDQBXZWQ", 142580)
 
